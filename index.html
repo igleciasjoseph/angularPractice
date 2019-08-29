@@ -29,10 +29,12 @@
         <hr>
         <p>The Time Is:</p>
         <h3>{{theTime}}</h3>
+        <hr>
+        <p ng-repeat="x in ditto"><img src="{{x}}" style="display: inline;"/></p>
 
     <script>
         var app = angular.module('myApp', []);
-        app.controller('myController', function($scope, $location, $interval) {
+        app.controller('myController', function($scope, $location, $interval, $http) {
             $scope.firstName = " ";
             $scope.lastName = " ";
             $scope.fullName = function() {
@@ -52,6 +54,9 @@
             $interval(function() {
                 $scope.theTime = new Date().toLocaleTimeString();
             }, 1000);
+            $http.get('https://pokeapi.co/api/v2/pokemon/ditto/').then(function(response) {
+                $scope.ditto = response.data.sprites;
+            })
         });
         app.directive("testDirective", function() {
             return {

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <title>First Angular</title>
+</head>
+<body>
+    <div ng-app="myApp" ng-controller="myController">
+        <p>First Name: <input type="text" ng-model="firstName"></p>
+        <p>Last Name: <input type="text" ng-model="lastName"></p>
+        <p>My Full Name Is: {{fullName()}}</p>
+        <hr>
+        <input ng-model="myCol" placeholder="Enter a color" style="background-color:{{myCol}}">
+        <hr>
+        <test-directive></test-directive>
+        <hr>
+        <form name="myForm">
+            Email: <input type="email" name="emailAddress" ng-model="text">
+            <span ng-show="myForm.emailAddress.$error.email">Not a valid email address</span>
+        </form>
+        <hr>
+        <h1 ng-click="nameChange()">{{tempName}}</h1>
+        <p>Click on the header to change name</p>
+        <hr>
+        <p>{{myUrl}}</p>
+        <hr>
+        <p>The Time Is:</p>
+        <h3>{{theTime}}</h3>
+
+    <script>
+        var app = angular.module('myApp', []);
+        app.controller('myController', function($scope, $location, $interval) {
+            $scope.firstName = " ";
+            $scope.lastName = " ";
+            $scope.fullName = function() {
+                return $scope.firstName + " " + $scope.lastName;
+            };
+            $scope.myCol = "Enter a Color";
+            $scope.tempName = "John";
+            $scope.nameChange = function() {
+                if ($scope.tempName == "John")
+                    $scope.tempName = "Doe";
+                else
+                    $scope.tempName = "John";
+
+            };
+            $scope.myUrl = $location.absUrl();
+            $scope.theTime = new Date().toLocaleTimeString();
+            $interval(function() {
+                $scope.theTime = new Date().toLocaleTimeString();
+            }, 1000);
+        });
+        app.directive("testDirective", function() {
+            return {
+                template : "<h1>Angular Learning</h1>"
+            };
+        });
+
+    </script>
+    </div>
+</body>
+</html>
